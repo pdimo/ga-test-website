@@ -19,7 +19,9 @@ GreenScape Solutions is a modern Australian commercial landscaping business. The
 
 ### **The Scenario & Your Task**
 
-You have been asked to set up GA4 for a new website. The URL for the test website is `{{YOUR_WEBSITE_URL}}`.
+You have been asked to set up GA4 for a new website. The URL for the test website is `{{YOUR_WEBSITE_URL}}` (this will be a temporary URL provided by the evaluator).
+
+    The evaluator will be available on Slack/email (`{{EVALUATOR_CONTACT_INFO}}`) to provide tag implementation instructions and ask any questions.
 
 1.  **Set Up Your Own Accounts:**
     *   Create a new Google Tag Manager (GTM) account and container.
@@ -27,8 +29,8 @@ You have been asked to set up GA4 for a new website. The URL for the test websit
     *   Link your new GA4 property to your GTM container.
 
 2.  **GTM Container Installation:**
-    *   Provide your GTM container ID to the evaluator. The evaluator will install the GTM snippet on the test website, and you will be notified once it's live.
-    *   The evaluator will be available on Slack/email (`{{EVALUATOR_CONTACT_INFO}}`) to provide tag implementation instructions and answer any questions.
+    *   Provide your GTM container ID to the evaluator. The evaluator will install the GTM snippet on the test website. You will be notified once it's live.
+    *   The evaluator will be available on Slack/email (`{{EVALUATOR_CONTACT_INFO}}`) to provide tag implementation instructions and ask any questions.
 
 3.  **Implement Tracking:**
     *   Using **only the Google Tag Manager interface**, implement the tracking requirements detailed below. You will not have access to modify the website's source code.
@@ -37,6 +39,20 @@ You have been asked to set up GA4 for a new website. The URL for the test websit
     *   During the interview evaluation, you will be asked to provide view access to your GTM container and GA4 property to the hiring manager.
 
 ### **Tracking Requirements**
+
+
+
+Your goal is to configure your GTM container to track the following key user interactions on the GreenScape Solutions website. The data should be sent to your GA4 property, following GA4's recommended event models where applicable.
+
+**0. Basic GA4 Tracking**
+*   **Goal:** Ensure fundamental GA4 data collection is active across the entire website.
+*   **Requirements:** Implement the necessary GA4 Configuration Tag to enable standard features like page views, enhanced measurement, and user engagement tracking.
+
+Your goal is to configure your GTM container to track the following key user interactions on the GreenScape Solutions website. The data should be sent to your GA4 property, following GA4's recommended event models where applicable.
+
+**0. Basic GA4 Tracking**
+*   **Goal:** Ensure fundamental GA4 data collection is active across the entire website.
+*   **Requirements:** Implement the necessary GA4 Configuration Tag to enable standard features like page views, enhanced measurement, and user engagement tracking.
 
 Your goal is to configure your GTM container to track the following key user interactions on the GreenScape Solutions website. The data should be sent to your GA4 property, following GA4's recommended event models where applicable.
 
@@ -51,7 +67,7 @@ Your goal is to configure your GTM container to track the following key user int
 **2. Lead Generation - Brochure Download**
 *   **Goal:** Track clicks on the "Download Our Brochure" button.
 *   **Location:** Services page.
-*   **Note:** The button has a specific HTML ID: `download-brochure-btn`.
+
 
 **3. Outbound Traffic Analysis**
 *   **Goal:** Measure user engagement with the company's social media profiles.
@@ -66,22 +82,22 @@ Your goal is to configure your GTM container to track the following key user int
 *   **Requirements:** Track when a user starts the video, completes it, and reaches key progress milestones (e.g., 25%, 50%, 75%).
 
 **6. Conversion Funnel - Contact Form**
-*   **Goal:** Understand the user journey through the multi-step contact form, identify drop-off points, and capture valuable lead data.
+*   **Goal:** Understand the user journey through the multi-step contact form and capture valuable lead data.
 *   **Location:** Contact Us page.
 *   **Requirements:**
     *   Track when the contact form becomes visible in the user's viewport.
-    *   Track user progression through each distinct step of the form.
+    *   Track the progression through the different steps of the form.
     *   Track successful form submissions.
     *   When the form is submitted, capture the user's selected "Project Budget" and send it to GA4.
     *   **Bonus:** Be prepared to demonstrate how you would set up a funnel exploration report in GA4 to visualize the user's journey through this multi-step form, identifying where users drop off.
 
-### **Final Steps**
-
-Use GTM's Preview Mode extensively to test and verify your implementation. Once you are confident in your setup, please notify the hiring manager.
-
 **7. Open-Ended Tracking (Optional but Recommended)**
 *   **Goal:** Demonstrate any additional tracking you believe would provide valuable insights for GreenScape Solutions.
 *   **Requirements:** Implement at least one additional tracking solution that you think would be beneficial for understanding user behavior or business performance on this website. Be prepared to explain your rationale during the interview.
+
+### **Final Steps**
+
+Use GTM's Preview Mode extensively to test and verify your implementation. Once you are confident in your setup, please notify the hiring manager.
 
 Good luck!
 
@@ -100,9 +116,28 @@ The candidate should be evaluated on the following:
 *   **Problem-Solving:** How did they approach challenges like the search query tracking and form identification?
 *   **Data Quality:** Is the data sent to GA4 clean, well-structured, and aligned with GA4's recommended event models?
 
+### **Website GTM Configuration**
+
+The website is configured to dynamically load GTM containers based on the `gtm.config.json` file located in the `public` directory. To install the candidate's GTM container:
+
+1.  Obtain the candidate's GTM Container ID (e.g., `GTM-ABCDEFG`).
+2.  Edit the `public/gtm.config.json` file and add their GTM ID to the `gtmIds` array. For example:
+    ```json
+    {
+      "gtmIds": [
+        "GTM-XXXXXXX",
+        "GTM-ABCDEFG" 
+      ]
+    }
+    ```
+3.  Save the file. The website will automatically load the new GTM container(s) on refresh.
+
 ### **Expected Implementation Details**
 
 This section details the expected GTM setup. A strong candidate should have a configuration that looks very similar to this.
+
+**0. Basic GA4 Tracking**
+*   **Expected Solution:** A GA4 Configuration Tag firing on all pages (`All Pages` trigger).
 
 **1. Phone Number Clicks**
 *   **Trigger Type:** Click - Just Links
@@ -119,7 +154,7 @@ This section details the expected GTM setup. A strong candidate should have a co
 *   **Configuration:** `Click URL` does not contain `[your website's hostname]` AND check the "Wait for Tags" and "Check Validation" boxes.
 *   **Tag:** GA4 Event, `event_name: click`, with parameters `outbound: true`, `link_url`, and `link_domain`.
 
-**4. Site Search Query Tracking**
+**4. On-Site Search Query Tracking**
 *   **The Challenge:** This is a key test of problem-solving. The search input has no ID and the search is real-time. A weak candidate might try to fire on every keystroke. A strong candidate will identify a better user action.
 *   **Expected Solution:**
     *   **Variable:** A `DOM Element` variable with a CSS selector like `input[placeholder='Search for a service...']` to capture the input's `value`.
@@ -129,7 +164,7 @@ This section details the expected GTM setup. A strong candidate should have a co
 
 **5. YouTube Video Tracking**
 *   **Trigger Type:** YouTube Video
-*   **Configuration:** Enable checkboxes for Start, Complete, and Progress (with percentages like 25, 50, 75).
+*   **Configuration:** Enable checkboxes for Start, Complete, and Progress (with percentages like 25%, 50%, 75%).
 *   **Variables:** Enable all built-in Video variables.
 *   **Tag:** A single GA4 Event tag. The `event_name` should be dynamic, using the `{{Video Status}}` variable (e.g., `video_start`). It should include parameters like `video_title`, `video_percent`, etc.
 
@@ -151,3 +186,7 @@ This section details the expected GTM setup. A strong candidate should have a co
     *   **Trigger Type:** Form Submission
     *   **Configuration:** Use a CSS selector to identify the specific form (e.g., `form.max-w-lg`) to avoid capturing other form submissions on the site.
     *   **Tag:** GA4 Event, `event_name: generate_lead` (GA4 recommended), with parameters for `form_id` (e.g., `contact_us_form`) and `project_budget` (populated by the variable).
+
+**7. Open-Ended Tracking (Optional but Recommended)**
+*   **Goal:** Demonstrate any additional tracking you believe would provide valuable insights for GreenScape Solutions.
+*   **Requirements:** Implement at least one additional tracking solution that you think would be beneficial for understanding user behavior or business performance on this website. Be prepared to explain your rationale during the interview.
