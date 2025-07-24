@@ -113,19 +113,25 @@ The candidate should be evaluated on the following:
 
 ### **Website GTM Configuration**
 
-The website is configured to dynamically load GTM containers based on the `gtm.config.json` file located in the `public` directory. To install the candidate's GTM container:
+The website is configured to dynamically load GTM containers using the `NEXT_PUBLIC_GTM_IDS` environment variable. This variable should be a JSON string representing an array of GTM Container IDs.
+
+To install the candidate's GTM container:
 
 1. Obtain the candidate's GTM Container ID (e.g., `GTM-ABCDEFG`).
-2. Edit the `public/gtm.config.json` file and add their GTM ID to the `gtmIds` array. For example:
-   ```json
-   {
-     "gtmIds": [
-       "GTM-XXXXXXX",
-       "GTM-ABCDEFG" 
-     ]
-   }
+2. **For local development:** Set the `NEXT_PUBLIC_GTM_IDS` environment variable in your `.env.local` file. For example:
    ```
-3. Save the file. The website will automatically load the new GTM container(s) on refresh.
+   NEXT_PUBLIC_GTM_IDS='["GTM-XXXXXXX", "GTM-ABCDEFG"]'
+   ```
+3. **For Vercel deployments:**
+   * Go to your project settings on Vercel.
+   * Navigate to "Environment Variables".
+   * Add a new environment variable:
+     * **Name:** `NEXT_PUBLIC_GTM_IDS`
+     * **Value:** A JSON string containing an array of GTM IDs, e.g., `["GTM-XXXXXXX", "GTM-ABCDEFG"]`.
+   * Ensure the variable is available for the appropriate environments (e.g., "Production", "Preview", "Development").
+   * After saving, Vercel will automatically trigger a new deployment with the updated environment variables.
+
+The website will automatically load the new GTM container(s) on refresh or after a new deployment.
 
 ### **Expected Implementation Details**
 
